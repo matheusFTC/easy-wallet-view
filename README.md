@@ -1,2 +1,2 @@
-# my-wallet-view
-My Wallet View
+# easy-wallet-view
+Easy Wallet View
