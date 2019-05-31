@@ -1,0 +1,33 @@
+export interface IUser {
+  _id?: string;
+  __v?: number;
+  referenceCode: any;
+  name: string;
+  note?: string;
+  isEnabled: boolean;
+  isManager: boolean;
+  dateOfBirth?: Date;
+  dateOfBirthFormatted?: string;
+  email?: string;
+  nif?: string;
+  generalRegistration?: string;
+  workRegisterBooklet?: string;
+  admissionAt?: Date;
+  admissionAtFormatted?: string;
+  resignationAt?: Date;
+  resignationAtFormatted?: string;
+  zipCode?: string;
+  place?: string;
+  number?: string;
+  complement?: string;
+  reference?: string;
+  neighborhood?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  phone?: string;
+  selected?: boolean;
+  password?: string;
+  newPassword?: string;
+  newPasswordConfirm?: string;
+}
