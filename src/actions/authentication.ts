@@ -1,8 +1,6 @@
-import { IUser } from '@/interfaces/i-user';
-
-export const authenticate = (referenceCode: string, password: string) => ({
+export const authenticate = (email: string, password: string) => ({
   type: 'authentication/authenticate',
-  referenceCode,
+  email,
   password,
 });
 export const restore = () => ({ type: 'authentication/restore' });

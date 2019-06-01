@@ -17,18 +17,18 @@ export default new Router({
       redirect: 'order-list',
       children: [
         {
-          name: 'employee-list',
-          path: 'employee-list',
+          name: 'user-list',
+          path: 'user-list',
           component: UserList,
         },
         {
-          name: 'employee-create',
-          path: 'employee-create',
+          name: 'user-create',
+          path: 'user-create',
           component: UserCreateUpdate,
         },
         {
-          name: 'employee-update',
-          path: 'employee-update/:_id',
+          name: 'user-update',
+          path: 'user-update/:_id',
           component: UserCreateUpdate,
         },
       ],

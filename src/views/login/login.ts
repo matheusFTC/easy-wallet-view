@@ -4,13 +4,13 @@ import { authenticate } from '@/actions/authentication';
 
 @Component
 export default class Login extends Vue {
-  private referenceCode: string = '';
+  private email: string = '';
   private password: string = '';
   private loading: boolean = false;
 
   private login() {
     this.loading = true;
-    this.$store.dispatch(authenticate(this.referenceCode, this.password))
+    this.$store.dispatch(authenticate(this.email, this.password))
       .then((res) => {
         this.loading = false;
 

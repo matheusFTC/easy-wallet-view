@@ -6,5 +6,5 @@ export default {
   },
   setUser(state: { user: IUser }, user: IUser) {
     state.user = user;
-  }
+  },
 };

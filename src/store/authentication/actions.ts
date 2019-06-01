@@ -1,13 +1,15 @@
 import { IUser } from '@/interfaces/i-user';
 
+import { getCookie, setCookie } from '@/utils/cookie';
+
 export default {
-  authenticate(context: any, { referenceCode, password }: { referenceCode: string, password: string }) {
+  authenticate(context: any, { email, password }: { email: string, password: string }) {
     const headers = {
       'Content-Type': 'application/json',
     };
 
     const body = JSON.stringify({
-      referenceCode,
+      email,
       password,
     });
     return fetch('api/v1/authentication', {
@@ -23,18 +25,19 @@ export default {
         context.commit('setToken', res.token);
         context.commit('setLoggedEmployee', res.employee);
 
-        localStorage.setItem('expires', res.expires);
-        localStorage.setItem('token', res.token);
-        localStorage.setItem('loggedEmployee', JSON.stringify(res.employee));
+        setCookie('expires', res.expires, res.expires);
+        setCookie('token', res.token, res.expires);
+        setCookie('loggedEmployee', JSON.stringify(res.employee), res.expires);
+
         return res;
       });
   },
   restore(context: any) {
     return Promise.resolve()
       .then(() => {
-        const expires: number = Number(localStorage.getItem('expires'));
-        const token: string = localStorage.getItem('token') || '';
-        const loggedEmployee: IUser = JSON.parse(localStorage.getItem('loggedEmployee') || '{}');
+        const expires: number = Number(getCookie('expires'));
+        const token: string = getCookie('token') || '';
+        const loggedEmployee: IUser = JSON.parse(getCookie('loggedEmployee') || '{}');
 
         context.commit('setExpires', expires);
         context.commit('setToken', token);
@@ -44,9 +47,9 @@ export default {
   logoff(context: any) {
     return Promise.resolve()
       .then(() => {
-        localStorage.setItem('expires', '');
-        localStorage.setItem('token', '');
-        localStorage.setItem('loggedEmployee', '');
+        setCookie('expires', '', null);
+        setCookie('token', '', null);
+        setCookie('loggedEmployee', '', null);
 
         context.commit('setExpires', null);
         context.commit('setToken', null);

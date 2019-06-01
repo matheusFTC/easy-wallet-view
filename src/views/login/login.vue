@@ -1,13 +1,13 @@
 <template lang="pug">
   .login-wrapper
     .login-box
-      h1.logo.pl-5 Easy Sales
+      h1.logo.pl-5 Easy Wallet
       span.credit
-        a(href='https://br.freepik.com/vetores-gratis/modelo-de-pagina-de-aterrissagem-com-conceito-de-compras-on-line_2711009.htm') Ilustração: Designed by Freepik
+        a(href='https://br.freepik.com/fotos-vetores-gratis/cartao') Ilustração: Designed by Freepik
       .login-content.pl-5.pr-5.px-2
         v-text-field(
-          v-model="referenceCode"
-          label='Código de acesso' type="text" required)
+          v-model="email"
+          label='E-mail' type="text" required)
         v-text-field(
           v-model="password"
           @keyup.enter="login"
@@ -16,9 +16,9 @@
           span.loading-info(slot='loader')
             v-progress-circular(indeterminate :size="20" :width="1" color='primary')
             | Entrando...
-        //- v-btn.mt-3(small block round outline color='blue-grey lighten-3' dark @click="goToRegister") Cadastrar
+        v-btn.mt-3(block round outline color='secondary' dark @click="goToRegister") Cadastrar
       .restore.mt-3.pl-5
-        p Recuperar senha
+        p Esqueci a senha
 </template>
 
 <script lang="ts" src="./login.ts">
@@ -33,8 +33,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url('../../assets/login-bg.svg') no-repeat;
-  background-size: 70%;
+  background: url('../../assets/login-bg.jpg') no-repeat;
+  background-size: 100%;
   background-origin: content-box;
   background-position-x: right;
   background-position-y: bottom;

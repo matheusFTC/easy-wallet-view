@@ -45,7 +45,7 @@ v-container(fluid)
           span Novo funcionário
 </template>
 
-<script lang="ts" src="./employee-list.ts">
+<script lang="ts" src="./user-list.ts">
 </script>
 
 <style lang="stylus" scoped>

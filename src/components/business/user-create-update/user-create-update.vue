@@ -100,7 +100,7 @@ v-container(fluid)
             v-if="!record._id") limpar
 </template>
 
-<script lang="ts" src="./employee-create-update.ts">
+<script lang="ts" src="./user-create-update.ts">
 </script>
 
 <style lang="stylus" scoped>
