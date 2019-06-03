@@ -1,6 +1,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 import { restore, logoff } from '@/actions/authentication';
+import { getCookie } from '@/utils/cookie';
 
 @Component
 export default class Dashboard extends Vue {
@@ -11,7 +12,7 @@ export default class Dashboard extends Vue {
   private mounted() {
     this.$store.dispatch(restore());
 
-    if (!localStorage.getItem('token')) {
+    if (!getCookie('token')) {
       this.$router.push('/');
     }
   }
