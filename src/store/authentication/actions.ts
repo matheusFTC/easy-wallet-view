@@ -23,11 +23,11 @@ export default {
       .then((res) => {
         context.commit('setExpires', res.expires);
         context.commit('setToken', res.token);
-        context.commit('setLoggedEmployee', res.employee);
+        context.commit('setLoggedUser', res.user);
 
         setCookie('expires', res.expires, res.expires);
         setCookie('token', res.token, res.expires);
-        setCookie('loggedEmployee', JSON.stringify(res.employee), res.expires);
+        setCookie('loggedUser', JSON.stringify(res.user), res.expires);
 
         return res;
       });
@@ -37,11 +37,11 @@ export default {
       .then(() => {
         const expires: number = Number(getCookie('expires'));
         const token: string = getCookie('token') || '';
-        const loggedEmployee: IUser = JSON.parse(getCookie('loggedEmployee') || '{}');
+        const loggedUser: IUser = JSON.parse(getCookie('loggedUser') || '{}');
 
         context.commit('setExpires', expires);
         context.commit('setToken', token);
-        context.commit('setLoggedEmployee', loggedEmployee);
+        context.commit('setLoggedUser', loggedUser);
       });
   },
   logoff(context: any) {
@@ -49,11 +49,11 @@ export default {
       .then(() => {
         setCookie('expires', '', null);
         setCookie('token', '', null);
-        setCookie('loggedEmployee', '', null);
+        setCookie('loggedUser', '', null);
 
         context.commit('setExpires', null);
         context.commit('setToken', null);
-        context.commit('setLoggedEmployee', null);
+        context.commit('setLoggedUser', null);
       });
   },
 };

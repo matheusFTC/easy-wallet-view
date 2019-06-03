@@ -7,7 +7,7 @@ export default {
   token: (state: { token: string }) => {
     return state.token;
   },
-  loggedEmployee: (state: { loggedEmployee: IUser }) => {
-    return state.loggedEmployee;
+  loggedUser: (state: { loggedUser: IUser }) => {
+    return state.loggedUser;
   },
 };

@@ -17,8 +17,6 @@
             v-progress-circular(indeterminate :size="20" :width="1" color='primary')
             | Entrando...
         v-btn.mt-3(block round outline color='secondary' dark @click="goToRegister") Cadastrar
-      .restore.mt-3.pl-5
-        p Esqueci a senha
 </template>
 
 <script lang="ts" src="./login.ts">
@@ -60,7 +58,7 @@
 }
 
 .logo {
-  color: #008DA7;
+  color: #008da7;
   font-weight: 100;
   font-size: 3rem;
 

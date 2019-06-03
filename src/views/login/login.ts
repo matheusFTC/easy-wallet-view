@@ -22,7 +22,7 @@ export default class Login extends Vue {
             type: 'error',
           });
         } else {
-          this.$router.push({ name: 'order-list' });
+          this.$router.push({ name: 'dashboard' });
         }
       });
   }

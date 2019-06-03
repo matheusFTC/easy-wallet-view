@@ -7,7 +7,7 @@ export default {
   setToken(state: { token: string }, token: string) {
     state.token = token;
   },
-  setLoggedEmployee(state: { loggedEmployee: IUser }, loggedEmployee: IUser) {
-    state.loggedEmployee = loggedEmployee;
+  setLoggedUser(state: { loggedUser: IUser }, loggedUser: IUser) {
+    state.loggedUser = loggedUser;
   },
 };

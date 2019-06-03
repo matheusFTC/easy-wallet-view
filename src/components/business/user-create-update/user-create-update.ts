@@ -41,10 +41,6 @@ export default class UserCreateUpdate extends Vue {
         this.record = Object.assign({}, this.user);
 
         delete this.record.password;
-
-        this.formatDateOfBirth();
-        this.formatAdmissionAt();
-        this.formatResignationAt();
       });
     }
   }
@@ -73,7 +69,7 @@ export default class UserCreateUpdate extends Vue {
                 group: 'simple-notifications',
                 title: 'Atualizar funcionário',
                 text: 'Funcionário atualizado com sucesso!',
-                type: 'sucess',
+                type: 'success',
               });
 
               this.errors = {};
@@ -102,7 +98,7 @@ export default class UserCreateUpdate extends Vue {
                 group: 'simple-notifications',
                 title: 'Novo funcionário',
                 text: 'Funcionário inserido com sucesso!',
-                type: 'sucess',
+                type: 'success',
               });
 
               this.errors = {};
@@ -131,7 +127,7 @@ export default class UserCreateUpdate extends Vue {
           group: 'simple-notifications',
           title: 'Remover funcionário',
           text: res.message,
-          type: 'sucess',
+          type: 'success',
         });
 
         this.$router.push({ name: 'employee-list' });
@@ -163,52 +159,7 @@ export default class UserCreateUpdate extends Vue {
     this.$router.replace({ name: 'employee-list' });
   }
 
-  private formatDateOfBirth() {
-    if (this.record.dateOfBirth) {
-      const date = new Date(this.record.dateOfBirth as Date);
-
-      date.setDate(date.getDate() + 1);
-
-      this.record.dateOfBirthFormatted = date.toLocaleDateString();
-    } else {
-      this.record.dateOfBirthFormatted = '';
-    }
-  }
-
-  private formatAdmissionAt() {
-    if (this.record.admissionAt) {
-      const date = new Date(this.record.admissionAt as Date);
-
-      date.setDate(date.getDate() + 1);
-
-      this.record.admissionAtFormatted = date.toLocaleDateString();
-    } else {
-      this.record.admissionAtFormatted = '';
-    }
-  }
-
-  private formatResignationAt() {
-    if (this.record.resignationAt) {
-      const date = new Date(this.record.resignationAt as Date);
-
-      date.setDate(date.getDate() + 1);
-
-      this.record.resignationAtFormatted = date.toLocaleDateString();
-    } else {
-      this.record.resignationAtFormatted = '';
-    }
-  }
-
   get enablePassword() {
     return !this.record._id;
-  }
-
-  get enableNewPassword() {
-    return this.record._id
-      && (this.loggedUser._id === this.record._id || this.loggedUser.isManager);
-  }
-
-  get isManager() {
-    return this.loggedUser ? this.loggedUser.isManager : false;
   }
 }

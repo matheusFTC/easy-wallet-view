@@ -23,7 +23,7 @@
       v-toolbar-title(v-text="title")
       v-spacer
       v-toolbar-items
-        v-btn(flat @click="logoff"): i.material-icons power_settings_new
+        v-btn(flat @click="logoff"): i.material-icons exit_to_app
     v-content
       router-view
 </template>

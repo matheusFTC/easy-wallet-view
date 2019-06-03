@@ -6,7 +6,7 @@ export default {
   state: {
     expires: null,
     token: null,
-    loggedEmployee: null,
+    loggedUser: null,
   },
   getters,
   mutations,
