@@ -5,9 +5,12 @@ import { insertUser } from '@/actions/user';
 
 @Component
 export default class Register extends Vue {
-  private valid: boolean = false;
   private record: IUser = {} as IUser;
   private errors: {} = {};
+
+  get valid() {
+    return this.record.name && this.record.email && this.record.password;
+  }
 
   private goBack() {
     this.$router.replace({ name: 'login' });

@@ -6,7 +6,7 @@ v-container(fluid)
         header.page-header
           v-btn(@click="goBack" icon): v-icon arrow_back
           h2.page-title Novo usuário
-        v-form(ref="form" v-model="valid")
+        v-form(ref="form")
           p.red--text.text--darken-3(v-if="errors.email") {{ errors.email.message }}
           v-text-field(v-model="record.email" label="E-mail" type="email")
           p.red--text.text--darken-3(v-if="errors.name") {{ errors.name.message }}

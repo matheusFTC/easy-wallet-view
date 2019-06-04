@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import Dashboard from '@/views/dashboard/dashboard';
 import Login from '@/views/login/login';
 import Register from '@/views/register/register';
+import Resume from '@/components/business/resume/resume';
 import UserList from '@/components/business/user-list/user-list';
 import UserCreateUpdate from '@/components/business/user-create-update/user-create-update';
 
@@ -15,7 +16,13 @@ export default new Router({
       path: '/dashboard',
       name: 'dashboard',
       component: Dashboard,
+      redirect: 'resume',
       children: [
+        {
+          name: 'resume',
+          path: 'resume',
+          component: Resume,
+        },
         {
           name: 'user-list',
           path: 'user-list',

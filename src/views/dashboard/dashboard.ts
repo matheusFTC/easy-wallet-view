@@ -7,7 +7,13 @@ import { getCookie } from '@/utils/cookie';
 export default class Dashboard extends Vue {
   private title: string = 'Easy Wallet';
   private drawer: boolean = false;
-  private menu: any[] = [];
+  private menu: any[] = [
+    {
+      icon: 'account_balance_wallet',
+      title: 'Resumo da Carteira',
+      to: 'resume',
+    },
+  ];
 
   private mounted() {
     this.$store.dispatch(restore());
