@@ -16,10 +16,10 @@ export default class Dashboard extends Vue {
   ];
 
   private mounted() {
-    this.$store.dispatch(restore());
-
     if (!getCookie('token')) {
       this.$router.push('/');
+    } else {
+      this.$store.dispatch(restore());
     }
   }
 

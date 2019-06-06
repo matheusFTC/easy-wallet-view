@@ -1,12 +1,21 @@
 import { Component, Vue } from 'vue-property-decorator';
 
-import { authenticate } from '@/actions/authentication';
+import { authenticate, restore, logoff } from '@/actions/authentication';
+import { getCookie } from '@/utils/cookie';
 
 @Component
 export default class Login extends Vue {
   private email: string = '';
   private password: string = '';
   private loading: boolean = false;
+
+  private mounted() {
+    if (getCookie('token')) {
+      this.$store.dispatch(restore());
+
+      this.$router.push({ name: 'resume' });
+    }
+  }
 
   private login() {
     this.loading = true;

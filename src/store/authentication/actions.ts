@@ -36,7 +36,7 @@ export default {
     return Promise.resolve()
       .then(() => {
         const expires: number = Number(getCookie('expires'));
-        const token: string = getCookie('token') || '';
+        const token: string = getCookie('token');
         const loggedUser: IUser = JSON.parse(getCookie('loggedUser') || '{}');
 
         context.commit('setExpires', expires);
