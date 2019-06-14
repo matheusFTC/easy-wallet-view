@@ -6,5 +6,6 @@ export interface INote {
   selected?: boolean;
   user: IUser;
   executedIn: Date;
+  executedInFormatted?: string;
   isEnabled: boolean;
 }
