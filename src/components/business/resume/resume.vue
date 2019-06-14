@@ -13,9 +13,9 @@ v-container(fluid)
             right
             fab
             slot="activator"
-            @click="goOperationCreate")
-            v-icon add
-          span Nova operação
+            @click="goNoteCreate")
+            v-icon note_add
+          span Nova nota de corretagem
 </template>
 
 <script lang="ts" src="./resume.ts">
