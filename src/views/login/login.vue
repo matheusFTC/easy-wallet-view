@@ -37,8 +37,13 @@
   background-position-x: right;
   background-position-y: bottom;
 
+  @media screen and (max-width: 490px) {
+    background-size: 60%;
+    background-position-x: 50%;
+  }
+
   @media screen and (min-width: 500px) and (max-height: 600px) {
-    background-size: 40%;
+    background-size: 60%;
   }
 
   @media screen and (min-width: 500px) {
