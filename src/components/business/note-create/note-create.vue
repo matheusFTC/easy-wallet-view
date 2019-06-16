@@ -6,16 +6,17 @@ v-container(fluid)
         header.page-header
           v-btn(@click="goBack" icon): v-icon arrow_back
           h2.page-title Nova nota de corretagem
-        v-form(ref="form" v-model="valid")
+        v-form(ref="form")
+          p.red--text.text--darken-3(v-if="errors.executedIn") {{ errors.executedIn.message }}
           v-menu(ref="menuExecutedIn"
             :close-on-content-click="false"
-            v-model="menuExecutedIn"
             :nudge-right="40"
             :return-value.sync="record.executedIn"
             lazy
-            transition="scale-transition"
             offset-y
             full-width
+            v-model="menuExecutedIn"
+            transition="scale-transition"
             min-width="290px")
             v-text-field(slot="activator"
               v-model="record.executedInFormatted"
@@ -26,6 +27,13 @@ v-container(fluid)
               v-spacer
               v-btn(flat color="primary" @click="menuExecutedIn = false") Cancelar
               v-btn(flat color="primary" @click="$refs.menuExecutedIn.save(record.executedIn)") Selecionar
+          p.red--text.text--darken-3(v-if="errors.settlementFee") {{ errors.settlementFee.message }}
+          v-text-field(prepend-icon="money_off"
+            label="Taxa de liquidação"
+            v-model="record.settlementFee"
+            mask="##.##")
+          v-btn(color="primary" :disabled="!valid" @click="submit") salvar
+          v-btn(color="error" @click="clear") limpar
 </template>
 
 <script lang="ts" src="./note-create.ts">

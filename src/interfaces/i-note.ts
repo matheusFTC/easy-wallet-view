@@ -5,7 +5,8 @@ export interface INote {
   __v?: number;
   selected?: boolean;
   user: IUser;
-  executedIn: Date;
+  executedIn: Date | null;
   executedInFormatted?: string;
+  settlementFee: number | null;
   isEnabled: boolean;
 }
