@@ -8,5 +8,6 @@ export interface INote {
   executedIn: Date | null;
   executedInFormatted?: string;
   settlementFee: number | null;
+  status?: string;
   isEnabled: boolean;
 }
