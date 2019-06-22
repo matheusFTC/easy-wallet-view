@@ -1,22 +1,19 @@
 <template lang="pug">
   .login-wrapper
-    .login-box
-      h1.logo.pl-5 Easy Wallet
-      span.credit
-        a(href='https://br.freepik.com/fotos-vetores-gratis/cartao') Ilustração: Designed by Freepik
-      .login-content.pl-5.pr-5.px-2
-        v-text-field(
-          v-model="email"
-          label='E-mail' type="text" required)
-        v-text-field(
-          v-model="password"
-          @keyup.enter="login"
-          label='Senha' type="password" required)
-        v-btn.mt-1(block round outline color='primary' dark @click="login" :loading="loading") Entrar
-          span.loading-info(slot='loader')
-            v-progress-circular(indeterminate :size="20" :width="1" color='primary')
-            | Entrando...
-        v-btn.mt-3(block round outline color='secondary' dark @click="goToRegister") Cadastrar
+    .login-form
+      h1.logo Easy Wallet
+      v-text-field(
+        v-model="email"
+        label='E-mail' type="text" required)
+      v-text-field(
+        v-model="password"
+        @keyup.enter="login"
+        label='Senha' type="password" required)
+      v-btn.mt-1(block round outline color='primary' dark @click="login" :loading="loading") Entrar
+        span.loading(slot='loader')
+          v-progress-circular(indeterminate :size="20" :width="1" color='primary')
+          | Entrando...
+      v-btn.mt-3(block round outline color='secondary' dark @click="goToRegister") Cadastrar
 </template>
 
 <script lang="ts" src="./login.ts">
@@ -27,39 +24,10 @@
   width: 100%;
   height: 100%;
   padding: 2rem;
-  position: fixed;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: url('../../assets/login-bg.jpg') no-repeat;
-  background-size: 100%;
-  background-origin: content-box;
-  background-position-x: right;
-  background-position-y: bottom;
-
-  @media screen and (max-width: 490px) {
-    background-size: 60%;
-    background-position-x: 50%;
-  }
-
-  @media screen and (min-width: 500px) and (max-height: 600px) {
-    background-size: 60%;
-  }
-
-  @media screen and (min-width: 500px) {
-    justify-content: left;
-  }
-
-  @media screen and (min-width: 768px) {
-    padding-right: 3rem;
-    align-items: center;
-  }
-
-  @media screen and (min-width: 949px) {
-    padding-right: 5rem;
-    background-size: 50%;
-    background-position-y: center;
-  }
 }
 
 .logo {
@@ -68,40 +36,21 @@
   font-size: 3rem;
 
   @media screen and (min-width: 949px) {
-    font-size: 5rem;
+    font-size: 4rem;
   }
 }
 
-.login-box {
-  margin-top: -50%;
-
-  @media screen and (min-width: 500px) {
-    margin-top: 0;
+.login-form {
+  @media screen and (max-width: 425px) {
+    width: 80%;
   }
 
-  @media screen and (min-width: 949px) {
-    margin-left: 15%;
+  @media screen and (min-width: 426px) {
+    width: 320px;
   }
 }
 
-.login-content {
-  width: 350px;
-}
-
-.credit {
-  position: fixed;
-  font-size: 8px;
-  bottom: 5px;
-  right: 10px;
-
-  a {
-    color: #bdbdbd;
-    text-decoration: none;
-    font-weight: 400;
-  }
-}
-
-.loading-info {
+.loading {
   display: flex;
   align-items: center;
 
