@@ -7,7 +7,7 @@ export default {
   fetchAssets(context: any, { query }: { query: IAssetQuery }) {
     return fetch(`api/v1/assets${queryFormatter(query)}`)
       .then((res) => {
-        context.commit('setAsset', res);
+        context.commit('setAssets', res);
       });
   },
   fetchAsset(context: any, { _id }: { _id: string }) {

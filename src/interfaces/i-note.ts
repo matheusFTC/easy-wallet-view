@@ -1,3 +1,4 @@
+import { IAsset } from '@/interfaces/i-asset';
 import { IUser } from '@/interfaces/i-user';
 
 export interface INote {
@@ -10,4 +11,10 @@ export interface INote {
   settlementFee: number | null;
   status?: string;
   isEnabled: boolean;
+}
+
+export interface IItemCreateNote {
+  asset: IAsset;
+  price?: number;
+  quantity?: number;
 }

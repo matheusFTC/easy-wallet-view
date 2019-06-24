@@ -7,36 +7,36 @@ v-container(fluid)
           v-btn(@click="goBack" icon): v-icon arrow_back
           h2.page-title Nova nota de corretagem
         v-form
-          .assets-container
+          .items-container
             header
-              h3.page-sub-title Ativos
+              h3.page-sub-title Itens
               v-text-field(
-                v-model="assetSymbol"
+                v-model="symbolSearch"
                 append-icon="playlist_add"
                 placeholder="Qual o ticker do ativo?"
                 single-line
                 hide-details
-                @click:append="search")
-            v-data-table(:headers="assetHeaders"
-              :items="assetsInNote"
-              :search="assetSymbol"
-              :pagination.sync="assetPagination"
+                @click:append="search"
+                v-on:keyup="search")
+            v-data-table(:headers="itemsHeaders"
+              :items="items"
+              :search="symbolSearch"
+              :pagination.sync="itemsPagination"
               hide-actions
               item-key="_id"
-              no-data-text="Nenhum ativo a ser exibido."
+              no-data-text="Nenhum ativo na nota de corretagem."
               no-results-text="Sua pesquisa não retornou nada.")
               template(slot="items" slot-scope="props")
                 td.justify-center.layout.px-0
                   v-icon.action-element(
-                    @click="addItem(props.item)") add
-                td {{ props.item.referenceCode }}
-                td {{ props.item.name }}
-                td {{ props.item.description }}
+                    @click="removeItem(props.item)") remove
+                td {{ props.item.asset.symbol }}
+                td {{ props.item.asset.shortName }}
                 td.text-xs-right R$ {{ props.item.price }}
-                td.text-xs-right {{ props.item.quantityInStock }}
+                td.text-xs-right {{ props.item.quantity }}
             .text-xs-center.pt-2
-              v-pagination(v-model="assetPagination.page"
-                :length="assetPages")
+              v-pagination(v-model="itemsPagination.page"
+                :length="itemsPages")
           p.red--text.text--darken-3(v-if="errors.executedIn") {{ errors.executedIn.message }}
           v-menu(ref="menuExecutedIn"
             :close-on-content-click="false"
@@ -67,11 +67,9 @@ v-container(fluid)
 </script>
 
 <style lang="stylus" scoped>
-.assets-container {
+.items-container {
   margin-top: 1.5rem;
-  margin-bottom: 2rem;
-
-  header {
+  margin-bottom: 2rem;Itensader {
     margin-bottom: 1.5rem;
   }
 }

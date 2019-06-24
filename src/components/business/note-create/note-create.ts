@@ -1,52 +1,57 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { mapGetters } from 'vuex';
 
-import { fetchAssets } from '@/actions/asset';
+import { fetchAssets, assets } from '@/actions/asset';
 import { loggedUser } from '@/actions/authentication';
 import { insertNote } from '@/actions/note';
-import { INote } from '@/interfaces/i-note';
+import { INote, IItemCreateNote } from '@/interfaces/i-note';
 import { IUser } from '@/interfaces/i-user';
 import { IAsset, IAssetQuery } from '@/interfaces/i-asset';
+
+import { getCookie, setCookie } from '@/utils/cookie';
 
 @Component({
   computed: {
     ...mapGetters({
       loggedUser,
+      assets,
     }),
   },
 })
 export default class NoteCreate extends Vue {
   private loggedUser: IUser;
+  private assets: IAsset[];
 
-  private assetSymbol: string = '';
-  private assetPagination: any = {};
-  private assetHeaders: any[] = [
+  private symbolSearch: string = '';
+  private itemsPagination: any = {};
+  private itemsHeaders: any[] = [
     { text: 'Ação', align: 'center', value: 'action', sortable: false },
-    { text: 'Cód. referência', value: 'referenceCode' },
-    { text: 'Nome', value: 'name' },
-    { text: 'Descrição', value: 'description' },
+    { text: 'Ticker', value: 'asset.symbol' },
+    { text: 'Nome', value: 'asset.shortName' },
     { text: 'Preço (R$)', align: 'right', value: 'price' },
-    { text: 'Qtd. em estoque', align: 'right', value: 'quantityInStock' },
+    { text: 'Qantidade', align: 'right', value: 'quantity' },
   ];
-  private assetsInNote: IAsset[] = [];
+  private items: IItemCreateNote[] = [];
   private menuExecutedIn: boolean = false;
   private errors: any = {};
   private record: INote = {} as INote;
 
   private mounted() {
     this.record.user = this.loggedUser;
+
+    this.items = JSON.parse(getCookie('itemsInNote') || '[]');
   }
 
   get valid() {
     return this.record.executedIn && this.record.settlementFee;
   }
 
-  get assetPages() {
-    if (!this.assetPagination.rowsPerPage ||
-      !this.assetPagination.totalItems) {
+  get itemsPages() {
+    if (!this.itemsPagination.rowsPerPage ||
+      !this.itemsPagination.totalItems) {
       return 0;
     } else {
-      return Math.ceil(this.assetPagination.totalItems / this.assetPagination.rowsPerPage);
+      return Math.ceil(this.itemsPagination.totalItems / this.itemsPagination.rowsPerPage);
     }
   }
 
@@ -62,8 +67,37 @@ export default class NoteCreate extends Vue {
     }
   }
 
-  private search() {
-    this.$store.dispatch(fetchAssets({ symbol: this.assetSymbol } as IAssetQuery));
+  private search(event: any) {
+    if (this.symbolSearch.length === 6 && (event.type === 'click' || event.keyCode === 13)) {
+      const exist = this.items.findIndex((item) => item.asset.symbol === this.symbolSearch.toUpperCase());
+
+      if (exist === -1) {
+        this.$store.dispatch(fetchAssets({ symbol: this.symbolSearch } as IAssetQuery))
+          .then(() => {
+            this.assets.forEach((asset) => {
+              this.symbolSearch = '';
+
+              this.items.push({
+                asset,
+                price: 0.0,
+                quantity: 0,
+              } as IItemCreateNote);
+
+              setCookie('itemsInNote', JSON.stringify(this.items), 86400000);
+
+              this.itemsPagination.totalItems = this.items.length;
+            });
+          })
+          .catch((error) => {
+            this.$notify({
+              group: 'simple-notifications',
+              title: 'Ops!',
+              text: error,
+              type: 'error',
+            });
+          });
+      }
+    }
   }
 
   private submit() {
