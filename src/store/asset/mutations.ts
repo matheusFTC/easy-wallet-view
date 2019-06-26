@@ -7,4 +7,7 @@ export default {
   setAsset(state: { asset: IAsset }, asset: IAsset) {
     state.asset = asset;
   },
+  setFinding(state: { finding: boolean }, finding: boolean) {
+    state.finding = finding;
+  },
 };

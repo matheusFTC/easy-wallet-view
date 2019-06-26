@@ -5,9 +5,12 @@ import queryFormatter from '@/utils/query-formatter';
 
 export default {
   fetchAssets(context: any, { query }: { query: IAssetQuery }) {
+    context.commit('setFinding', true);
+
     return fetch(`api/v1/assets${queryFormatter(query)}`)
       .then((res) => {
         context.commit('setAssets', res);
+        context.commit('setFinding', false);
       });
   },
   fetchAsset(context: any, { _id }: { _id: string }) {

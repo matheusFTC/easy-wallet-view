@@ -7,4 +7,7 @@ export default {
   asset: (state: { asset: IAsset }) => {
     return state.asset;
   },
+  finding: (state: { finding: boolean }) => {
+    return state.finding;
+  },
 };

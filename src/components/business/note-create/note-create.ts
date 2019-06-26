@@ -1,20 +1,19 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { mapGetters } from 'vuex';
 
-import { fetchAssets, assets } from '@/actions/asset';
+import { fetchAssets, assets, finding } from '@/actions/asset';
 import { loggedUser } from '@/actions/authentication';
 import { insertNote } from '@/actions/note';
 import { INote, IItemCreateNote } from '@/interfaces/i-note';
 import { IUser } from '@/interfaces/i-user';
 import { IAsset, IAssetQuery } from '@/interfaces/i-asset';
 
-import { getCookie, setCookie } from '@/utils/cookie';
-
 @Component({
   computed: {
     ...mapGetters({
       loggedUser,
       assets,
+      finding,
     }),
   },
 })
@@ -39,7 +38,7 @@ export default class NoteCreate extends Vue {
   private mounted() {
     this.record.user = this.loggedUser;
 
-    this.items = JSON.parse(getCookie('itemsInNote') || '[]');
+    this.items = JSON.parse(sessionStorage.getItem('itemsInNote') || '[]');
   }
 
   get valid() {
@@ -68,7 +67,7 @@ export default class NoteCreate extends Vue {
   }
 
   private search(event: any) {
-    if (this.symbolSearch.length === 6 && (event.type === 'click' || event.keyCode === 13)) {
+    if (this.symbolSearch.length === 6) {
       const exist = this.items.findIndex((item) => item.asset.symbol === this.symbolSearch.toUpperCase());
 
       if (exist === -1) {
@@ -83,7 +82,7 @@ export default class NoteCreate extends Vue {
                 quantity: 0,
               } as IItemCreateNote);
 
-              setCookie('itemsInNote', JSON.stringify(this.items), 86400000);
+              this.saveInTemp();
 
               this.itemsPagination.totalItems = this.items.length;
             });
@@ -98,6 +97,16 @@ export default class NoteCreate extends Vue {
           });
       }
     }
+  }
+
+  private removeItem(item: IItemCreateNote) {
+    const index = this.items.findIndex((i: IItemCreateNote) => i.asset._id === item.asset._id);
+
+    this.items.splice(index, 1);
+
+    this.saveInTemp();
+
+    this.itemsPagination.totalItems = this.items.length;
   }
 
   private submit() {
@@ -133,7 +142,13 @@ export default class NoteCreate extends Vue {
     }
   }
 
+  private saveInTemp() {
+    sessionStorage.setItem('itemsInNote', JSON.stringify(this.items));
+  }
+
   private clear() {
+    sessionStorage.setItem('itemsInNote', '[]');
+
     this.errors = {};
 
     this.record.user = this.loggedUser;
@@ -142,6 +157,8 @@ export default class NoteCreate extends Vue {
   }
 
   private goBack() {
+    this.clear();
+
     this.$router.replace({ name: 'resume' });
   }
 }

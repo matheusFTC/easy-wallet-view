@@ -12,20 +12,18 @@ v-container(fluid)
               h3.page-sub-title Itens
               v-text-field(
                 v-model="symbolSearch"
-                append-icon="playlist_add"
-                placeholder="Qual o ticker do ativo?"
+                append-icon="add"
+                placeholder="Qual ativo você quer incluir?"
                 single-line
                 hide-details
-                @click:append="search"
-                v-on:keyup="search")
+                @click:append="search")
             v-data-table(:headers="itemsHeaders"
               :items="items"
-              :search="symbolSearch"
               :pagination.sync="itemsPagination"
               hide-actions
               item-key="_id"
               no-data-text="Nenhum ativo na nota de corretagem."
-              no-results-text="Sua pesquisa não retornou nada.")
+              :loading="finding")
               template(slot="items" slot-scope="props")
                 td.justify-center.layout.px-0
                   v-icon.action-element(

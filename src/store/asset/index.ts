@@ -6,6 +6,7 @@ export default {
   state: {
     assets: [],
     asset: null,
+    finding: false,
   },
   getters,
   mutations,
