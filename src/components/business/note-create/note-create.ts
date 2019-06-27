@@ -67,7 +67,7 @@ export default class NoteCreate extends Vue {
   }
 
   private search(event: any) {
-    if (this.symbolSearch.length === 5) {
+    if (this.symbolSearch.length >= 5) {
       const exist = this.items.findIndex((item) => item.asset.symbol === this.symbolSearch.toUpperCase());
 
       if (exist === -1) {
