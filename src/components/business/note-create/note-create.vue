@@ -30,8 +30,32 @@ v-container(fluid)
                     @click="removeItem(props.item)") remove
                 td {{ props.item.asset.symbol }}
                 td {{ props.item.asset.shortName }}
-                td.text-xs-right R$ {{ props.item.price }}
-                td.text-xs-right {{ props.item.quantity }}
+                td
+                  v-edit-dialog(:return-value.sync="props.item.price"
+                    large
+                    lazy
+                    persistent
+                    saveText="Confirmar"
+                    cancelText="Cancelar")
+                    div {{ props.item.price }}
+                    .mt-3.title(slot="input") Preço (R$)
+                    v-text-field(slot="input"
+                      v-model="props.item.price"
+                      type="number"
+                      autofocus)
+                td
+                  v-edit-dialog(:return-value.sync="props.item.quantity"
+                    large
+                    lazy
+                    persistent
+                    saveText="Confirmar"
+                    cancelText="Cancelar")
+                    div {{ props.item.quantity }}
+                    .mt-3.title(slot="input") Quantidade
+                    v-text-field(slot="input"
+                      v-model="props.item.quantity"
+                      type="number"
+                      autofocus)
             .text-xs-center.pt-2
               v-pagination(v-model="itemsPagination.page"
                 :length="itemsPages")

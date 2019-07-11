@@ -27,8 +27,8 @@ export default class NoteCreate extends Vue {
     { text: 'Ação', align: 'center', value: 'action', sortable: false },
     { text: 'Ticker', value: 'asset.symbol' },
     { text: 'Nome', value: 'asset.shortName' },
-    { text: 'Preço (R$)', align: 'right', value: 'price' },
-    { text: 'Qantidade', align: 'right', value: 'quantity' },
+    { text: 'Preço (R$)', value: 'price' },
+    { text: 'Qantidade', value: 'quantity' },
   ];
   private items: IItemCreateNote[] = [];
   private menuExecutedIn: boolean = false;
