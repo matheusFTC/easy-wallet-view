@@ -37,6 +37,7 @@ export default class NoteCreate extends Vue {
 
   private mounted() {
     this.record.user = this.loggedUser;
+    this.record.executedInFormatted = (new Date()).toLocaleDateString();
 
     this.items = JSON.parse(sessionStorage.getItem('itemsInNote') || '[]');
   }
@@ -78,8 +79,8 @@ export default class NoteCreate extends Vue {
 
               this.items.push({
                 asset,
-                price: 0.0,
-                quantity: 0,
+                price: asset.currentPrice,
+                quantity: 100,
               } as IItemCreateNote);
 
               this.saveInTemp();

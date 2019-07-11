@@ -7,7 +7,7 @@ export interface INote {
   selected?: boolean;
   user: IUser;
   executedIn: Date | null;
-  executedInFormatted?: string;
+  executedInFormatted?: string | null;
   settlementFee: number | null;
   status?: string;
   isEnabled: boolean;
