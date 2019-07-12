@@ -79,8 +79,9 @@ v-container(fluid)
               v-btn(flat color="primary" @click="menuExecutedIn = false") Cancelar
               v-btn(flat color="primary" @click="$refs.menuExecutedIn.save(record.executedIn)") Selecionar
           p.red--text.text--darken-3(v-if="errors.settlementFee") {{ errors.settlementFee.message }}
-          v-text-field(label="Taxa de liquidação"
-            v-model="record.settlementFee" mask="##.##")
+          v-text-field(label="Taxa de liquidação (R$)"
+            v-model="record.settlementFee"
+            type="number")
           v-btn(color="primary" :disabled="!valid" @click="submit") salvar
           v-btn(color="error" @click="clear") limpar
 </template>

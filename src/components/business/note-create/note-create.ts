@@ -37,13 +37,19 @@ export default class NoteCreate extends Vue {
 
   private mounted() {
     this.record.user = this.loggedUser;
-    this.record.executedInFormatted = (new Date()).toLocaleDateString();
+
+    const now = new Date();
+
+    this.record.executedIn = now;
+    this.record.executedInFormatted = now.toLocaleDateString();
 
     this.items = JSON.parse(sessionStorage.getItem('itemsInNote') || '[]');
   }
 
   get valid() {
-    return this.record.executedIn && this.record.settlementFee;
+    return this.items.length > 0
+      && this.record.executedIn
+      && this.record.settlementFee;
   }
 
   get itemsPages() {
@@ -153,7 +159,14 @@ export default class NoteCreate extends Vue {
     this.errors = {};
 
     this.record.user = this.loggedUser;
-    this.record.executedIn = null;
+
+    this.items = [];
+
+    const now = new Date();
+
+    this.record.executedIn = now;
+    this.record.executedInFormatted = now.toLocaleDateString();
+
     this.record.settlementFee = null;
   }
 
