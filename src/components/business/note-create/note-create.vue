@@ -30,6 +30,10 @@ v-container(fluid)
                     @click="removeItem(props.item)") remove
                 td {{ props.item.asset.symbol }}
                 td {{ props.item.asset.shortName }}
+                td(width=200)
+                  v-combobox(
+                    v-model="props.item.type"
+                    :items="itemTypes")
                 td
                   v-edit-dialog(:return-value.sync="props.item.price"
                     large

@@ -13,8 +13,14 @@ export interface INote {
   isEnabled: boolean;
 }
 
+export interface ITypeItemCreateNote {
+  value: string;
+  text: string;
+}
+
 export interface IItemCreateNote {
   asset: IAsset;
   price?: number;
   quantity?: number;
+  type?: ITypeItemCreateNote;
 }

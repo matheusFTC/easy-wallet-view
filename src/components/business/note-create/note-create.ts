@@ -4,7 +4,7 @@ import { mapGetters } from 'vuex';
 import { fetchAssets, assets, finding } from '@/actions/asset';
 import { loggedUser } from '@/actions/authentication';
 import { insertNote } from '@/actions/note';
-import { INote, IItemCreateNote } from '@/interfaces/i-note';
+import { INote, IItemCreateNote, ITypeItemCreateNote } from '@/interfaces/i-note';
 import { IUser } from '@/interfaces/i-user';
 import { IAsset, IAssetQuery } from '@/interfaces/i-asset';
 
@@ -27,8 +27,19 @@ export default class NoteCreate extends Vue {
     { text: 'Ação', align: 'center', value: 'action', sortable: false },
     { text: 'Ticker', value: 'asset.symbol' },
     { text: 'Nome', value: 'asset.shortName' },
+    { text: 'Tipo', value: 'type' },
     { text: 'Preço (R$)', value: 'price' },
     { text: 'Qantidade', value: 'quantity' },
+  ];
+  private itemTypes: ITypeItemCreateNote[] = [
+    {
+      value: 'B',
+      text: 'Compra',
+    },
+    {
+      value: 'S',
+      text: 'Venda',
+    },
   ];
   private items: IItemCreateNote[] = [];
   private menuExecutedIn: boolean = false;
@@ -38,10 +49,7 @@ export default class NoteCreate extends Vue {
   private mounted() {
     this.record.user = this.loggedUser;
 
-    const now = new Date();
-
-    this.record.executedIn = now;
-    this.record.executedInFormatted = now.toLocaleDateString();
+    this.record.executedInFormatted = (new Date()).toLocaleDateString();
 
     this.items = JSON.parse(sessionStorage.getItem('itemsInNote') || '[]');
   }
@@ -85,6 +93,7 @@ export default class NoteCreate extends Vue {
 
               this.items.push({
                 asset,
+                type: this.itemTypes[0],
                 price: asset.currentPrice,
                 quantity: 100,
               } as IItemCreateNote);
@@ -162,11 +171,8 @@ export default class NoteCreate extends Vue {
 
     this.items = [];
 
-    const now = new Date();
-
-    this.record.executedIn = now;
-    this.record.executedInFormatted = now.toLocaleDateString();
-
+    this.record.executedInFormatted = null;
+    this.record.executedIn = null;
     this.record.settlementFee = null;
   }
 
