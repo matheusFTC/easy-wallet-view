@@ -46,6 +46,7 @@ v-container(fluid)
                     v-text-field(slot="input"
                       v-model="props.item.price"
                       type="number"
+                      @change="calculateTotalNet()"
                       autofocus)
                 td
                   v-edit-dialog(:return-value.sync="props.item.quantity"
@@ -59,6 +60,7 @@ v-container(fluid)
                     v-text-field(slot="input"
                       v-model="props.item.quantity"
                       type="number"
+                      @change="calculateTotalNet()"
                       autofocus)
             .text-xs-center.pt-2
               v-pagination(v-model="itemsPagination.page"
@@ -82,9 +84,17 @@ v-container(fluid)
               v-spacer
               v-btn(flat color="primary" @click="menuExecutedIn = false") Cancelar
               v-btn(flat color="primary" @click="$refs.menuExecutedIn.save(record.executedIn)") Selecionar
+          p.red--text.text--darken-3(v-if="errors.netValueOfOperations") {{ errors.netValueOfOperations.message }}
+          v-text-field(label="Valor líquido das operações (R$)"
+            v-model="record.netValueOfOperations"
+            type="number")
           p.red--text.text--darken-3(v-if="errors.settlementFee") {{ errors.settlementFee.message }}
           v-text-field(label="Taxa de liquidação (R$)"
             v-model="record.settlementFee"
+            type="number")
+          p.red--text.text--darken-3(v-if="errors.registrationFee") {{ errors.registrationFee.message }}
+          v-text-field(label="Taxa de Registro (R$)"
+            v-model="record.registrationFee"
             type="number")
           v-btn(color="primary" :disabled="!valid" @click="submit") salvar
           v-btn(color="error" @click="clear") limpar

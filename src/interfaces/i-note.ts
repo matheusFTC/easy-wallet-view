@@ -8,7 +8,9 @@ export interface INote {
   user: IUser;
   executedIn: Date | null;
   executedInFormatted?: string | null;
+  netValueOfOperations: number | null;
   settlementFee: number | null;
+  registrationFee: number | null;
   status?: string;
   isEnabled: boolean;
 }
@@ -20,7 +22,7 @@ export interface ITypeItemCreateNote {
 
 export interface IItemCreateNote {
   asset: IAsset;
-  price?: number;
-  quantity?: number;
-  type?: ITypeItemCreateNote;
+  price: number;
+  quantity: number;
+  type: ITypeItemCreateNote;
 }

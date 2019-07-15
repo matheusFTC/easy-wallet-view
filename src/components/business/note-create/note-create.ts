@@ -27,7 +27,7 @@ export default class NoteCreate extends Vue {
     { text: 'Ação', align: 'center', value: 'action', sortable: false },
     { text: 'Ticker', value: 'asset.symbol' },
     { text: 'Nome', value: 'asset.shortName' },
-    { text: 'Tipo', value: 'type' },
+    { text: 'Tipo da Operação', value: 'type' },
     { text: 'Preço (R$)', value: 'price' },
     { text: 'Qantidade', value: 'quantity' },
   ];
@@ -47,11 +47,10 @@ export default class NoteCreate extends Vue {
   private record: INote = {} as INote;
 
   private mounted() {
-    this.record.user = this.loggedUser;
-
-    this.record.executedInFormatted = (new Date()).toLocaleDateString();
-
     this.items = JSON.parse(sessionStorage.getItem('itemsInNote') || '[]');
+    this.record = JSON.parse(sessionStorage.getItem('record') || '{}');
+
+    this.record.user = this.loggedUser;
   }
 
   get valid() {
@@ -88,25 +87,35 @@ export default class NoteCreate extends Vue {
       if (exist === -1) {
         this.$store.dispatch(fetchAssets({ symbol: this.symbolSearch } as IAssetQuery))
           .then(() => {
-            this.assets.forEach((asset) => {
-              this.symbolSearch = '';
+            if (this.assets.length) {
+              this.assets.forEach((asset) => {
+                this.symbolSearch = '';
 
-              this.items.push({
-                asset,
-                type: this.itemTypes[0],
-                price: asset.currentPrice,
-                quantity: 100,
-              } as IItemCreateNote);
+                this.items.push({
+                  asset,
+                  type: this.itemTypes[0],
+                  price: asset.currentPrice,
+                  quantity: 100,
+                } as IItemCreateNote);
 
-              this.saveInTemp();
+                this.calculateTotalNet();
+                this.saveInTemp();
 
-              this.itemsPagination.totalItems = this.items.length;
-            });
+                this.itemsPagination.totalItems = this.items.length;
+              });
+            } else {
+              this.$notify({
+                group: 'simple-notifications',
+                title: 'Desculpe!',
+                text: 'Não encontramos o ativo do ticker informado.',
+                type: 'error',
+              });
+            }
           })
           .catch((error) => {
             this.$notify({
               group: 'simple-notifications',
-              title: 'Ops!',
+              title: 'Desculpe!',
               text: error,
               type: 'error',
             });
@@ -120,9 +129,16 @@ export default class NoteCreate extends Vue {
 
     this.items.splice(index, 1);
 
+    this.calculateTotalNet();
     this.saveInTemp();
 
     this.itemsPagination.totalItems = this.items.length;
+  }
+
+  private calculateTotalNet() {
+    this.record.netValueOfOperations = this.items.length ? Number(this.items
+      .map((item) => item.price * item.quantity)
+      .reduce((prevVal, elem) => prevVal + elem).toFixed(2)) : null;
   }
 
   private submit() {
@@ -160,10 +176,12 @@ export default class NoteCreate extends Vue {
 
   private saveInTemp() {
     sessionStorage.setItem('itemsInNote', JSON.stringify(this.items));
+    sessionStorage.setItem('record', JSON.stringify(this.record));
   }
 
   private clear() {
     sessionStorage.setItem('itemsInNote', '[]');
+    sessionStorage.setItem('record', '');
 
     this.errors = {};
 
@@ -173,7 +191,9 @@ export default class NoteCreate extends Vue {
 
     this.record.executedInFormatted = null;
     this.record.executedIn = null;
+    this.record.netValueOfOperations = null;
     this.record.settlementFee = null;
+    this.record.registrationFee = null;
   }
 
   private goBack() {
